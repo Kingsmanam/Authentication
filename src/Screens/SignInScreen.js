@@ -13,17 +13,14 @@ const SignInScreen = ({navigation}) => {
   const [id, setId] = useState('');
   const [pass, setPass] = useState('');
 
-  
-
   const SignIn = () => {
-    for (let i = 0; i < user.length; i++) {
-      if (user[i].username == id && user[i].password == pass) {
+    const userindex = user.findIndex(e => e.username == id);
+    const passindex = user.findIndex(e => e.password == pass);
+      if (userindex == passindex) {
         setIsSignedIn(false);
       } else {
         alert('Username or Password may not be correct');
-      }
-    }
-    
+      }  
   };
 
   return (
