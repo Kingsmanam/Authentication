@@ -16,7 +16,7 @@ const SignInScreen = ({navigation}) => {
   const SignIn = () => {
     const userindex = user.findIndex(e => e.username == id);
     const passindex = user.findIndex(e => e.password == pass);
-      if (userindex == passindex) {
+      if (userindex > -1 && userindex == passindex) {
         setIsSignedIn(false);
       } else {
         alert('Username or Password may not be correct');
