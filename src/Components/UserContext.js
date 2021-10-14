@@ -4,13 +4,13 @@ export const UserContext = createContext();
 export const UserProvider = (props) => {
   const [user, setUser] = useState([
     {
-      username: 'test',
-      password: 'test'
+      username: 'user',
+      password: 'pass'
     }
   ]);
-  const [isSignedIn, setIsSignedIn] = useState(true)
+  const [token, setToken] = useState(0)
   return (
-    <UserContext.Provider value={[user ,setUser, isSignedIn, setIsSignedIn]}>
+    <UserContext.Provider value={[user ,setUser, token, setToken]}>
       {props.children}
     </UserContext.Provider>
   );

@@ -7,22 +7,29 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {UserContext} from '../Components/UserContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignInScreen = ({navigation}) => {
-  const [user, setUser, isSignedIn, setIsSignedIn] = useContext(UserContext);
+  const [user, setUser, token, setToken] = useContext(UserContext);
   const [id, setId] = useState('');
   const [pass, setPass] = useState('');
 
-  const SignIn = () => {
-    const userindex = user.findIndex(e => e.username == id);
-    const passindex = user.findIndex(e => e.password == pass);
+  const SignIn = async () => {
+    try {
+      const userindex = user.findIndex(e => e.username == id);
+      const passindex = user.findIndex(e => e.password == pass);
       if (userindex > -1 && userindex == passindex) {
-        setIsSignedIn(false);
+        const stringdata = '1';
+        AsyncStorage.setItem('@save_user', stringdata);
+        setToken(stringdata);
+        console.log('setting',token);
       } else {
         alert('Username or Password may not be correct');
-      }  
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
-
   return (
     <View style={Styles.container}>
       <TextInput

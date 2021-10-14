@@ -1,16 +1,16 @@
 import React, { useContext, useState } from 'react';
 import { TextInput, View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import { UserContext } from '../Components/UserContext';
+
 const SignUpScreen = ({navigation}) => {
-  const [user ,setUser, isSignedIn, setIsSignedIn] = useContext(UserContext);
+  const [user ,setUser, token, setToken] = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const SignUp = () => {
     setUser([...user, {username, password}]);
-    (username !== '' && password !== '') ? navigation.navigate('SignIn') 
+    username !== '' && password !== '' ? navigation.navigate('SignIn') 
     : alert("You can't leave a field unfulfilled")
-    
   }
   
   return (
