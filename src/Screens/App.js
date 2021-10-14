@@ -16,11 +16,10 @@ const App = () => {
 
   const getData = async () => {
     try {
-      const stringdata = await AsyncStorage.getItem('@save_token');
+      const stringdata = await AsyncStorage.getItem('SINA');
       if (stringdata !== null) {
         setToken(stringdata);
       }
-      console.log('geting',token);
     } catch (e) {
       console.log(e);
     }

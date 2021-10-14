@@ -8,7 +8,7 @@ export const UserProvider = (props) => {
       password: 'pass'
     }
   ]);
-  const [token, setToken] = useState(0)
+  const [token, setToken] = useState(0);
   return (
     <UserContext.Provider value={[user ,setUser, token, setToken]}>
       {props.children}

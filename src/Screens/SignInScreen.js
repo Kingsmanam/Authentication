@@ -20,9 +20,8 @@ const SignInScreen = ({navigation}) => {
       const passindex = user.findIndex(e => e.password == pass);
       if (userindex > -1 && userindex == passindex) {
         const stringdata = '1';
-        AsyncStorage.setItem('@save_user', stringdata);
-        setToken(stringdata);
-        console.log('setting',token);
+        await AsyncStorage.setItem('SINA', stringdata);
+        await setToken(stringdata);
       } else {
         alert('Username or Password may not be correct');
       }

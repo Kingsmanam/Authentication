@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -10,8 +10,10 @@ import {
 import {ActivityIndicator, Searchbar} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {UserContext} from '../Components/UserContext';
 
 const DigikalaScreen = () => {
+  const [user, setUser, token, setToken] = useContext(UserContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [data, setData] = useState([]);
   const [isloading, setLoading] = useState(true);
@@ -43,7 +45,7 @@ const DigikalaScreen = () => {
       <View style={styles.itemcart}>
         <Image source={{uri: item.image}} style={styles.productimage} />
         <View style={styles.textcontainer}>
-          <Text style={{width: '100%', lineHeight: 23}} numberOfLines={5}>
+          <Text style={{width: '100%', lineHeight: 22, fontSize: 12}} numberOfLines={5}>
             {item.title}
           </Text>
         </View>
@@ -53,25 +55,23 @@ const DigikalaScreen = () => {
 
   const SignOut = async () => {
     try {
-      await AsyncStorage.removeItem('@save_user')
-
+      await AsyncStorage.removeItem('SINA');
+      setToken(0);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   return (
     <View style={styles.maincontainer}>
-      <Icon name="logout" style={styles.button} size={50} onPress={SignOut}/> 
+      <Icon name="logout" style={styles.button} size={50} onPress={SignOut} />
       <Searchbar
         style={styles.searchbar}
         inputStyle={{fontSize: 16}}
         placeholder="Search"
-        onChangeText={onChangeSearch}> 
-        
-      </Searchbar>
-     
-      <View style={{width: '100%', height: '40%', marginTop: 10}}>
+        onChangeText={onChangeSearch}></Searchbar>
+
+      <View style={{width: '100%', height: '25%', marginTop: 10}}>
         <FlatList
           data={data}
           renderItem={renderProducts}
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     height: '100%',
     paddingTop: 10,
     marginBottom: 10,
+    backgroundColor: 'white',
   },
   searchbar: {
     position: 'relative',
@@ -98,19 +99,21 @@ const styles = StyleSheet.create({
   },
   itemcart: {
     flexDirection: 'row-reverse',
-    height: '75%',
+    height: '90%',
     padding: 10,
     borderWidth: 2,
     marginHorizontal: 5,
     borderColor: '#ECEFF1',
+    borderRadius: 20,
   },
   productimage: {
-    width: 70,
-    height: 150,
+    resizeMode: 'center',
+    width: 110,
+    height: 120,
     marginLeft: 10,
   },
   textcontainer: {
-    width: 200,
+    width: 175,
     height: '90%',
   },
   button: {
