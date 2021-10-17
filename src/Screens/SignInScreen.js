@@ -8,11 +8,13 @@ import {
 } from 'react-native';
 import {UserContext} from '../Components/UserContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import  Icon  from 'react-native-vector-icons/FontAwesome5';
 
 const SignInScreen = ({navigation}) => {
   const [user, setUser, token, setToken] = useContext(UserContext);
   const [id, setId] = useState('');
   const [pass, setPass] = useState('');
+  const [visible, setVisible] = useState(true);
 
   const SignIn = async () => {
     try {
@@ -31,6 +33,7 @@ const SignInScreen = ({navigation}) => {
   };
   return (
     <View style={Styles.container}>
+      <Icon name={visible ? 'eye' : 'eye-slash'} size={20} color='gray' onPress={() => setVisible(!visible)} style={Styles.eye}/>
       <TextInput
         style={Styles.textinput1}
         placeholder={'Username'}
@@ -38,7 +41,9 @@ const SignInScreen = ({navigation}) => {
       <TextInput
         style={Styles.textinput1}
         placeholder={'Password'}
-        onChangeText={setPass}></TextInput>
+        onChangeText={setPass}
+        secureTextEntry={visible}>
+      </TextInput>
       <View style={Styles.container2}>
         <Text style={{fontSize: 13}}>Dont have an account? </Text>
         <TouchableOpacity
@@ -63,6 +68,8 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textinput1: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     height: 60,
     width: '80%',
     borderWidth: 1,
@@ -97,5 +104,11 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  eye: {
+    position: 'absolute',
+    top : 240,
+    right: 65,
+    zIndex: 2
+  }
 });
 export default SignInScreen;

@@ -1,12 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {
-  FlatList,
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {FlatList, StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
 import {ActivityIndicator, Searchbar} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -42,14 +35,14 @@ const DigikalaScreen = () => {
       return <ActivityIndicator />;
     }
     return (
-      <View style={styles.itemcart}>
+      <TouchableOpacity style={styles.itemcart} >
         <Image source={{uri: item.image}} style={styles.productimage} />
         <View style={styles.textcontainer}>
           <Text style={{width: '100%', lineHeight: 22, fontSize: 12}} numberOfLines={5}>
             {item.title}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -69,8 +62,8 @@ const DigikalaScreen = () => {
         style={styles.searchbar}
         inputStyle={{fontSize: 16}}
         placeholder="Search"
-        onChangeText={onChangeSearch}></Searchbar>
-
+        onChangeText={onChangeSearch}>
+      </Searchbar>
       <View style={{width: '100%', height: '25%', marginTop: 10}}>
         <FlatList
           data={data}
@@ -78,6 +71,7 @@ const DigikalaScreen = () => {
           keyExtractor={item => item.id}
           horizontal
           showsHorizontalScrollIndicator={false}
+          inverted
         />
       </View>
     </View>
@@ -93,18 +87,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   searchbar: {
-    position: 'relative',
     backgroundColor: '#E0E0E0',
-    zIndex: 1,
   },
   itemcart: {
     flexDirection: 'row-reverse',
-    height: '90%',
+    height: '95%',
     padding: 10,
     borderWidth: 2,
     marginHorizontal: 5,
     borderColor: '#ECEFF1',
-    borderRadius: 20,
+    borderRadius: 20
   },
   productimage: {
     resizeMode: 'center',
