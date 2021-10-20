@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import {FlatList, StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
 import {ActivityIndicator, Searchbar} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserContext} from '../Components/UserContext';
 
 const DigikalaScreen = () => {
-  const [user, setUser, token, setToken] = useContext(UserContext);
+  const [state, dispatch] = useContext(UserContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [data, setData] = useState([]);
   const [isloading, setLoading] = useState(true);
@@ -49,7 +49,7 @@ const DigikalaScreen = () => {
   const SignOut = async () => {
     try {
       await AsyncStorage.removeItem('SINA');
-      setToken(0);
+      dispatch({type: 'SignOut'})
     } catch (e) {
       console.log(e);
     }

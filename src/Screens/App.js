@@ -10,7 +10,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
-  const [user ,setUser, token, setToken] = useContext(UserContext);
+  const [state, dispatch] = useContext(UserContext);
+  const {token} = state;
   const [isloading, setLoading] = useState(true);
   
 
@@ -18,7 +19,7 @@ const App = () => {
     try {
       const stringdata = await AsyncStorage.getItem('SINA');
       if (stringdata !== null) {
-        setToken(stringdata);
+        dispatch({type: 'SignIn', value: stringdata})
       }
     } catch (e) {
       console.log(e);

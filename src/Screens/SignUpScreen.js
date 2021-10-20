@@ -3,28 +3,33 @@ import { TextInput, View, StyleSheet, Text, TouchableOpacity} from 'react-native
 import { UserContext } from '../Components/UserContext';
 
 const SignUpScreen = ({navigation}) => {
-  const [user ,setUser, token, setToken] = useContext(UserContext);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [state, dispatch] = useContext(UserContext);
+  const {user, username, password, error} = state;
 
   const SignUp = () => {
-    setUser([...user, {username, password}]);
-    username !== '' && password !== '' ? navigation.navigate('SignIn') 
-    : alert("You can't leave a field unfulfilled")
+
+    if (username !== '' && password !== '') {
+      dispatch({type: 'SignUp', value: [...user, {username, password}]})
+      navigation.navigate('SignIn') 
+    } else {
+      dispatch({type: 'SignUpError'})
+    }
   }
   
   return (
+
    <View style={Styles.container}>
+     <Text style={{color: 'red', fontSize: 13, }}>{error}</Text>
     <TextInput 
       style={Styles.textinput1}
       placeholder={'Username'}
-      onChangeText={setUsername}>
+      onChangeText={(k) => dispatch({type: 'input', field: 'username', payload: k})}>
       
     </TextInput>
     <TextInput 
       style={Styles.textinput1}
       placeholder={'Password'}
-      onChangeText={setPassword}>
+      onChangeText={(m) => dispatch({type: 'input', field: 'password', payload: m})}>
       
     </TextInput>
     <TouchableOpacity style={Styles.SignIn} onPress={SignUp}>
@@ -35,6 +40,7 @@ const SignUpScreen = ({navigation}) => {
 };
 
 const Styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     alignItems: 'center',

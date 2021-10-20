@@ -11,37 +11,38 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import  Icon  from 'react-native-vector-icons/FontAwesome5';
 
 const SignInScreen = ({navigation}) => {
-  const [user, setUser, token, setToken] = useContext(UserContext);
-  const [id, setId] = useState('');
-  const [pass, setPass] = useState('');
+  const [state, dispatch] = useContext(UserContext);
+  const {user, id, pass, error} = state;
   const [visible, setVisible] = useState(true);
-
+  
   const SignIn = async () => {
-    try {
+    try { 
       const userindex = user.findIndex(e => e.username == id);
       const passindex = user.findIndex(e => e.password == pass);
-      if (userindex > -1 && userindex == passindex) {
+      if (userindex != -1 && passindex != -1 && userindex == passindex) {
         const stringdata = '1';
         await AsyncStorage.setItem('SINA', stringdata);
-        await setToken(stringdata);
+        dispatch({type: 'SignIn', value: stringdata}); 
       } else {
-        alert('Username or Password may not be correct');
+        dispatch({type: 'SignInError'});
       }
     } catch (e) {
-      console.log(e);
+        console.log(e);
     }
   };
   return (
     <View style={Styles.container}>
       <Icon name={visible ? 'eye' : 'eye-slash'} size={20} color='gray' onPress={() => setVisible(!visible)} style={Styles.eye}/>
+      <Text style={{color: 'red', fontSize: 13}}>{error}</Text>
       <TextInput
         style={Styles.textinput1}
         placeholder={'Username'}
-        onChangeText={setId}></TextInput>
+        onChangeText={(i) => dispatch({type: 'input', field: 'id', payload: i})}>
+      </TextInput>
       <TextInput
         style={Styles.textinput1}
         placeholder={'Password'}
-        onChangeText={setPass}
+        onChangeText={(j) => dispatch({type: 'input', field: 'pass', payload: j})}
         secureTextEntry={visible}>
       </TextInput>
       <View style={Styles.container2}>
@@ -106,7 +107,7 @@ const Styles = StyleSheet.create({
   },
   eye: {
     position: 'absolute',
-    top : 240,
+    top : 250,
     right: 65,
     zIndex: 2
   }
